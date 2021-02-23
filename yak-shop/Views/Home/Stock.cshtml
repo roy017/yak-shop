@@ -1,0 +1,25 @@
+﻿@using yak_shop;
+@{
+    ViewData["Title"] = "Stock";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>We have been open for @ViewData["CurrentDay"] days</p>
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Milk in Liters</th>
+            <th>Wool Skins</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        
+        
+            <tr>
+                <td>@ViewData["stockInfoMilk"]</td>
+                <td>@ViewData["stockInfoSkins"]</td>
+            </tr>
+
+        
+    </tbody>

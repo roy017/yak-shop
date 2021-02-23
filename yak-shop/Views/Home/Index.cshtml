@@ -1,0 +1,40 @@
+﻿@using yak_shop;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Yak Shop</h1>
+
+    <h3>Herd</h3>
+    <p>Fill in a number below, to get the herd information of that day.</p>
+    @using (Html.BeginForm("Herd", "Home", FormMethod.Get))
+    {
+        <input type="text" id="herdDays" name="herdDays" value="" placeholder="1">
+
+        <input type="submit" id="Herd" value="Submit" class="btn btn-success btn-lg" />
+    }
+    <h3>Stock</h3>
+    <p>Fill in a number below, to get the stock information of that day.</p>
+    @using (Html.BeginForm("Stock", "Home", FormMethod.Get))
+    {
+        <input type="text" id="herdDays" name="herdDays" value="" placeholder="1">
+
+        <input type="submit" id="Stock" value="Submit" class="btn btn-success btn-lg" />
+    }
+    <h3>Order</h3>
+    <p>Fill in the information below, to put an order in.</p>
+    @using (Html.BeginForm("Order", "Home", FormMethod.Post))
+    {
+        <p>Name:</p>
+        <input type="text" id="customerName" name="customerName" value="" placeholder="name here">
+        <p>Liters of Milk:</p>
+        <input type="text" id="milkOrder" name="milkOrder" value="" placeholder="1">
+        <p>Total Skins of Wool:</p>
+        <input type="text" id="skinsOrder" name="skinsOrder" value="" placeholder="1">
+        <p>Day:</p>
+        <input type="text" id="herdDays" name="herdDays" value="" placeholder="1">
+
+        <input type="submit" id="Order" value="Submit" class="btn btn-success btn-lg" />
+    }
+</div>

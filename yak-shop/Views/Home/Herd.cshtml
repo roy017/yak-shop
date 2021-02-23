@@ -1,0 +1,28 @@
+﻿@using yak_shop;
+@{
+    ViewData["Title"] = "Herd";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>We have been open for @ViewData["CurrentDay"] days</p>
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Age Last Shaved</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var yak in (IEnumerable<YakDetails>)ViewData["herdInfo"])
+        {
+            <tr>
+                <td>@yak.Name</td>
+                <td>@yak.Age</td>
+                <td>@yak.Sex</td>
+                <td>@yak.ageLastShaved</td>
+            </tr>
+
+        }
+    </tbody>
