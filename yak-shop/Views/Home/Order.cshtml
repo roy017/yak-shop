@@ -1,0 +1,17 @@
+﻿@using yak_shop;
+@{
+    ViewData["Title"] = "Order";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>We have been open for @ViewData["CurrentDay"] days</p>
+<p>Statuscode = @ViewData["StatusCode"]</p>
+@if ((bool)ViewData["enoughMilk"] == true)
+{
+    <p>Milk ordered: @ViewData["milk"]</p>
+}
+@if ((bool)ViewData["enoughSkins"] == true)
+{
+    <p>Skins ordered: @ViewData["skins"]</p>
+}
+

@@ -17,12 +17,15 @@
     <tbody>
         @foreach (var yak in (IEnumerable<YakDetails>)ViewData["herdInfo"])
         {
-            <tr>
-                <td>@yak.Name</td>
-                <td>@yak.Age</td>
-                <td>@yak.Sex</td>
-                <td>@yak.ageLastShaved</td>
-            </tr>
+            @if(!((float)yak.Age >= (float)ViewData["MaxAge"] ))
+            { 
+                <tr>
+                    <td>@yak.Name</td>
+                    <td>@yak.Age</td>
+                    <td>@yak.Sex</td>
+                    <td>@yak.ageLastShaved</td>
+                </tr>
+            }
 
         }
     </tbody>

@@ -16,6 +16,7 @@ using System.Net.Http;
 
 namespace yak_shop.Controllers
 {
+
     //[Route("yak-shop/[controller]")]
     //[ApiController]
     //[FormatFilter]
@@ -63,13 +64,9 @@ namespace yak_shop.Controllers
             stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
 
             var json = JsonConvert.SerializeObject(herdInfo.ToArray(), Formatting.Indented);
-            System.IO.File.WriteAllText(@"DataHerd_JSON.txt", json);
+            System.IO.File.WriteAllText(@"JsonFiles\DataHerd_JSON.json", json);
 
-
-
-
-
-            //string dateTime = DateTime.Now.ToShortDateString();
+            ViewData["MaxAge"] = 10f;
             ViewData["CurrentDay"] = T;
             return View();
         }
@@ -92,14 +89,11 @@ namespace yak_shop.Controllers
             YakUtilities YakUtilities = new YakUtilities();
             List<YakDetails> herdInfo = YakUtilities.GetAllData();
 
-            //ViewData["herdInfo"] = herdInfo;
-
             StockDetails stockInfo = new StockDetails();
             stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
             var json = JsonConvert.SerializeObject(stockInfo, Formatting.Indented);
-            System.IO.File.WriteAllText(@"DataStock_JSON.txt", json);
+            System.IO.File.WriteAllText(@"JsonFiles\DataStock_JSON.json", json);
 
-            //string dateTime = DateTime.Now.ToShortDateString();
             ViewData["stockInfoMilk"] = Math.Round(stockInfo.Milk, 2);
             ViewData["stockInfoSkins"] = stockInfo.Skins;
             ViewData["CurrentDay"] = T;
@@ -107,9 +101,9 @@ namespace yak_shop.Controllers
         }
 
         [Route("Yak-Shop/order/")]
-        //[Produces("application/json")]
+        //[Produces]
         [HttpPost("{herdDays}")]
-        public HttpResponseMessage Order(string customerName, string milkOrder, string skinsOrder, string herdDays)
+        public IActionResult Order(string customerName, string milkOrder, string skinsOrder, string herdDays)
         {
             bool enoughMilk = false;
             bool enoughSkins = false;
@@ -121,39 +115,52 @@ namespace yak_shop.Controllers
                 T = int.Parse(herdDays);
                 milk = float.Parse(milkOrder);
                 skins = int.Parse(skinsOrder);
+                T = int.Parse(herdDays);
+                milk = float.Parse(milkOrder);
+                skins = int.Parse(skinsOrder);
 
+                YakUtilities YakUtilities = new YakUtilities();
+                List<YakDetails> herdInfo = YakUtilities.GetAllData();
+
+                StockDetails stockInfo = new StockDetails();
+                stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
+
+                if ((stockInfo.Milk - milk) >= 0)
+                    enoughMilk = true;
+                if ((stockInfo.Skins - skins) >= 0)
+                    enoughSkins = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+            HttpResponseMessage message = OrderMessage(enoughMilk, enoughSkins);
+            HttpStatusCode statusCode = message.StatusCode;
 
-            YakUtilities YakUtilities = new YakUtilities();
-            List<YakDetails> herdInfo = YakUtilities.GetAllData();
+            ViewData["CurrentDay"] = T;
+            ViewData["StatusCode"] = (int)statusCode;
+            ViewData["enoughMilk"] = enoughMilk;
+            ViewData["enoughSkins"] = enoughSkins;
+            ViewData["milk"] = milk;
+            ViewData["skins"] = skins;
 
-            //ViewData["herdInfo"] = herdInfo;
+            return View();
+        }
+        public HttpResponseMessage OrderMessage(bool enoughMilk, bool enoughSkins)
+        {
+                if (enoughMilk && enoughSkins)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Created);
+                }
+                else if (enoughMilk || enoughSkins)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.PartialContent);
+                }
+                else
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
 
-            StockDetails stockInfo = new StockDetails();
-            stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
-
-            if ((stockInfo.Milk - milk) >= 0)
-                enoughMilk = true;
-            if ((stockInfo.Skins - skins) >= 0)
-                enoughSkins = true;
-
-            if(enoughMilk && enoughSkins)
-            {
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else if(enoughMilk || enoughSkins)
-            {
-                return new HttpResponseMessage(HttpStatusCode.PartialContent);
-            }
-            else
-            {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

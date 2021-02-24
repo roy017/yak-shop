@@ -46,7 +46,6 @@ namespace yak_shop
         {
             StockDetails stockInfo = new StockDetails();
 
-            
             int totalSkins = 0;
             double totalMilk = 0;
             foreach (var yak in herdInfo)
@@ -60,7 +59,9 @@ namespace yak_shop
 
                 yak.Age +=  ((float)days / 100);
                 yak.ageLastShaved = ageInDaysNow / 100;
+                    
             }
+            
             stockInfo.Skins = totalSkins;
             stockInfo.Milk = totalMilk;
             //Console.WriteLine($"{stockInfo.Milk} liters of milk, {stockInfo.Skins} skins of wool");
