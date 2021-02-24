@@ -1,6 +1,5 @@
-﻿namespace yak_shop
+﻿namespace yak_shop.DetailsAndUtilities
 {
-    
     public class YakDetails
     {
         public string Name;

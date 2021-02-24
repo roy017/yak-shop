@@ -9,15 +9,15 @@ using System.IO;
 using System.Xml.Linq;
 using System.Diagnostics;
 
-namespace yak_shop
+namespace yak_shop.DetailsAndUtilities
 {
     public class YakUtilities
     {
-        const int MAX_YAK_AGE_DAYS = 10000;
+        const int MAX_YAK_AGE_DAYS = 1000;
         public List<YakDetails> GetAllData()
         {
             //XElement document = XElement.Load(@"C:\Users\roysi\source\repos\yak-shop\yak-shop\YakData.xml");
-            XElement document = XElement.Load(@"YakData.xml");
+            XElement document = XElement.Load(@"DetailsAndUtilities\YakData.xml");
             string ResultText = document.FirstNode.ToString();
             IEnumerable<XElement> yakInfo = (from info in document.Elements("labyak") select info);
 
@@ -50,10 +50,8 @@ namespace yak_shop
             double totalMilk = 0;
             foreach (var yak in herdInfo)
             {
-
                 yak.ageLastShaved = yak.Age;
                 float ageInDaysNow = yak.Age * 100;
-                GetMilk(days, yak, ageInDaysNow);
                 totalMilk += GetMilk(days, yak, ageInDaysNow);
                 totalSkins += GetSkins(days, yak, ref ageInDaysNow);
 

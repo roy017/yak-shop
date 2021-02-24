@@ -6,6 +6,20 @@
 
 <p>We have been open for @ViewData["CurrentDay"] days</p>
 <p>Statuscode = @ViewData["StatusCode"]</p>
+@if ((int)ViewData["StatusCode"] == 201)
+{
+    <p>The order was succesfully placed.</p>
+}
+else if ((int)ViewData["StatusCode"] == 206)
+{
+    <p>The order was partially placed, one of your items is not in stock.</p>
+}
+else
+{
+    <p>The order was unsuccesfull, both your items are not in stock.</p>
+}
+
+
 @if ((bool)ViewData["enoughMilk"] == true)
 {
     <p>Milk ordered: @ViewData["milk"]</p>

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using yak_shop.Models;
-using yak_shop;
+using yak_shop.DetailsAndUtilities;
 using System.Web;
 using System.IO;
 using System.Text.Json;
@@ -17,9 +17,6 @@ using System.Net.Http;
 namespace yak_shop.Controllers
 {
 
-    //[Route("yak-shop/[controller]")]
-    //[ApiController]
-    //[FormatFilter]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -41,7 +38,6 @@ namespace yak_shop.Controllers
             return View();
         }
         [Route("Yak-Shop/herd/")]
-        //[Produces("application/json")]
         [HttpGet("{herdDays}.{format?}")]
         public IActionResult Herd(string herdDays)
         {
@@ -101,7 +97,6 @@ namespace yak_shop.Controllers
         }
 
         [Route("Yak-Shop/order/")]
-        //[Produces]
         [HttpPost("{herdDays}")]
         public IActionResult Order(string customerName, string milkOrder, string skinsOrder, string herdDays)
         {
@@ -143,6 +138,19 @@ namespace yak_shop.Controllers
             ViewData["enoughSkins"] = enoughSkins;
             ViewData["milk"] = milk;
             ViewData["skins"] = skins;
+
+            OrderDetails orderInfo = new OrderDetails();
+            orderInfo.status = (int)statusCode;
+            Order order = new Order();
+            if(enoughMilk)
+                order.milk = milk;
+            if(enoughSkins)
+                order.skins = skins;
+            orderInfo.order = order;
+
+            var json = JsonConvert.SerializeObject(orderInfo, Formatting.Indented);
+            System.IO.File.WriteAllText(@"JsonFiles\DataOrder_JSON.json", json);
+            //System.IO.File.AppendAllText(@"JsonFiles\DataOrder_JSON.json", json);
 
             return View();
         }

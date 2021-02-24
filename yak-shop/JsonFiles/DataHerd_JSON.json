@@ -1,20 +1,20 @@
 [
   {
     "Name": "Betty-1",
-    "Age": 9.0,
+    "Age": 5.0,
     "Sex": "f",
-    "ageLastShaved": 8.92
+    "ageLastShaved": 4.91
   },
   {
     "Name": "Betty-2",
-    "Age": 13.0,
+    "Age": 9.0,
     "Sex": "f",
-    "ageLastShaved": 12.93
+    "ageLastShaved": 8.85
   },
   {
     "Name": "Betty-3",
-    "Age": 14.5,
+    "Age": 10.5,
     "Sex": "f",
-    "ageLastShaved": 14.42
+    "ageLastShaved": 9.86
   }
 ]

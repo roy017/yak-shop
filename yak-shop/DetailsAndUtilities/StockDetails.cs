@@ -1,4 +1,4 @@
-﻿namespace yak_shop
+﻿namespace yak_shop.DetailsAndUtilities
 {
     public class StockDetails
     {
