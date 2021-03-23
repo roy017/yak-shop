@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace yak_shop.DetailsAndUtilities
 {
