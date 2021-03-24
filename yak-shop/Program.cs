@@ -20,7 +20,8 @@ namespace yak_shop
         {
             Initialize();
             //GetData();
-            AddYak();
+            //AddYak();
+            FindYak(1);
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -52,6 +53,13 @@ namespace yak_shop
                 ageLastShaved = 3
             };
             repository.AddYak(yak);
+        }
+
+        static void FindYak(int id)
+        {
+            var repository = CreateRepository();
+            var yak = repository.FindYakData(id);
+            yak.Output();
         }
 
         private static void Initialize()

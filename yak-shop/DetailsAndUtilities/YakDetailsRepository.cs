@@ -27,5 +27,9 @@ namespace yak_shop.DetailsAndUtilities
             var id = this.db.Query<int>(sql, yak).Single();
             yak.Id = id;
         }
+        public override YakDetails FindYakData(int id)
+        {
+            return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { id }).SingleOrDefault();
+        }
     }
 }

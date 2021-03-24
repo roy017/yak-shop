@@ -15,5 +15,9 @@ namespace yak_shop.DetailsAndUtilities
         {
             throw new System.NotImplementedException();
         }
+        public virtual YakDetails FindYakData(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
