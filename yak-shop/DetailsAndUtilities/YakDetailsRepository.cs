@@ -31,5 +31,16 @@ namespace yak_shop.DetailsAndUtilities
         {
             return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { id }).SingleOrDefault();
         }
+
+        public override void UpdateYakData(YakDetails yak)
+        {
+            var sql = "UPDATE YakDetailsData " + "SET Name = @Name, " + "Age = @Age, " + "Sex = @Sex, " + "ageLastShaved = @ageLastShaved " + "WHERE Id = @Id";
+            this.db.Execute(sql, yak);
+        }
+
+        public override void RemoveYakData(int id)
+        {
+            this.db.Execute("DELETE FROM YakDetailsData WHERE Id = @Id", new { id });
+        }
     }
 }

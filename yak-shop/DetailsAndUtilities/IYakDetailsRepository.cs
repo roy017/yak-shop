@@ -19,5 +19,14 @@ namespace yak_shop.DetailsAndUtilities
         {
             throw new System.NotImplementedException();
         }
+        public virtual void UpdateYakData(YakDetails yak)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void RemoveYakData(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

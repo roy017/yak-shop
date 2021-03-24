@@ -21,7 +21,9 @@ namespace yak_shop
             Initialize();
             //GetData();
             //AddYak();
-            FindYak(1);
+            //FindYak(1);
+            //UpdateYak(1);
+            //DeleteYak(2);
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -60,6 +62,29 @@ namespace yak_shop
             var repository = CreateRepository();
             var yak = repository.FindYakData(id);
             yak.Output();
+        }
+
+        static void UpdateYak(int id)
+        {
+            var repository = CreateRepository();
+            var yak = repository.FindYakData(id);
+            yak.Output();
+            yak.Age = 6;
+            repository.UpdateYakData(yak);
+
+            //var repository2 = CreateRepository();
+            //var yak2 = repository2.FindYakData(id);
+            //yak2.Output();
+        }
+
+        static void DeleteYak(int id)
+        {
+            var repository = CreateRepository();
+            repository.FindYakData(id);
+            repository.RemoveYakData(id);
+
+            //var repository2 = CreateRepository();
+            //repository2.FindYakData(id);
         }
 
         private static void Initialize()
