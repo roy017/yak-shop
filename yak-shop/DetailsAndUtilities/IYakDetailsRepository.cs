@@ -5,28 +5,18 @@ using System.Threading.Tasks;
 
 namespace yak_shop.DetailsAndUtilities
 {
-    public class IYakDetailsRepository
+    public interface IYakDetailsRepository
     {
-        public virtual List<YakDetails> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
-        public virtual void AddYak(YakDetails yak)
-        {
-            throw new System.NotImplementedException();
-        }
-        public virtual YakDetails FindYakData(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-        public virtual void UpdateYakData(YakDetails yak)
-        {
-            throw new System.NotImplementedException();
-        }
+        public YakDetails GetYak(int yakId);
 
-        public virtual void RemoveYakData(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        
+        //List<YakDetails> GetAll();
+
+        //void AddYak(YakDetails yak);
+
+        //YakDetails FindYakData(int id);
+        //void UpdateYakData(YakDetails yak);
+
+        //void RemoveYakData(int id);
     }
 }

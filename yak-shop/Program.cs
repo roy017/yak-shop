@@ -18,7 +18,7 @@ namespace yak_shop
         private static IConfigurationRoot config;
         public static void Main(string[] args)
         {
-            Initialize();
+            //Initialize();
             //GetData();
             //AddYak();
             //FindYak(1);
@@ -34,68 +34,68 @@ namespace yak_shop
                     webBuilder.UseStartup<Startup>();
                 });
         
-        static void GetData()
-        {
-            var repository = CreateRepository();
+        //static void GetData()
+        //{
+        //    var repository = CreateRepository();
 
-            var yakDetails = repository.GetAll();
+        //    var yakDetails = repository.GetAll();
 
-            Console.WriteLine($"Count:{ yakDetails.Count}");
-            yakDetails.Output();
-        }
+        //    Console.WriteLine($"Count:{ yakDetails.Count}");
+        //    yakDetails.Output();
+        //}
 
-        static void AddYak()
-        {
-            var repository = CreateRepository();
-            var yak = new YakDetails
-            {
-                Name = "Jetty",
-                Age = 3,
-                Sex = 'f',
-                ageLastShaved = 3
-            };
-            repository.AddYak(yak);
-        }
+        //static void AddYak()
+        //{
+        //    var repository = CreateRepository();
+        //    var yak = new YakDetails
+        //    {
+        //        Name = "Jetty",
+        //        Age = 3,
+        //        Sex = 'f',
+        //        ageLastShaved = 3
+        //    };
+        //    repository.AddYak(yak);
+        //}
 
-        static void FindYak(int id)
-        {
-            var repository = CreateRepository();
-            var yak = repository.FindYakData(id);
-            yak.Output();
-        }
+        //static void FindYak(int id)
+        //{
+        //    var repository = CreateRepository();
+        //    var yak = repository.FindYakData(id);
+        //    yak.Output();
+        //}
 
-        static void UpdateYak(int id)
-        {
-            var repository = CreateRepository();
-            var yak = repository.FindYakData(id);
-            yak.Output();
-            yak.Age = 6;
-            repository.UpdateYakData(yak);
+        //static void UpdateYak(int id)
+        //{
+        //    var repository = CreateRepository();
+        //    var yak = repository.FindYakData(id);
+        //    yak.Output();
+        //    yak.Age = 6;
+        //    repository.UpdateYakData(yak);
 
-            //var repository2 = CreateRepository();
-            //var yak2 = repository2.FindYakData(id);
-            //yak2.Output();
-        }
+        //    //var repository2 = CreateRepository();
+        //    //var yak2 = repository2.FindYakData(id);
+        //    //yak2.Output();
+        //}
 
-        static void DeleteYak(int id)
-        {
-            var repository = CreateRepository();
-            repository.FindYakData(id);
-            repository.RemoveYakData(id);
+        //static void DeleteYak(int id)
+        //{
+        //    var repository = CreateRepository();
+        //    repository.FindYakData(id);
+        //    repository.RemoveYakData(id);
 
-            //var repository2 = CreateRepository();
-            //repository2.FindYakData(id);
-        }
+        //    //var repository2 = CreateRepository();
+        //    //repository2.FindYakData(id);
+        //}
 
-        private static void Initialize()
-        {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            config = builder.Build();
-        }
+        //private static void Initialize()
+        //{
+        //    var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+        //    config = builder.Build();
+        //}
 
-        private static IYakDetailsRepository CreateRepository()
-        {
-            return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
-        }
+        //private static IYakDetailsRepository CreateRepository()
+        //{
+        //    return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
+        //}
     }
 }
