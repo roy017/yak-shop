@@ -23,13 +23,14 @@ namespace yak_shop.DetailsAndUtilities
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public YakDetails GetYak(int yakId)
+        public YakDetails GetYak(int id)
         {
-            Console.WriteLine("Testing");
+            //Console.WriteLine("Testing");
             //if (yakId == null)
             //    throw new ArgumentNullException(nameof(yakId));
             //return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { yakId }).SingleOrDefault();
-            return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
+            return this.db.Query<YakDetails>("SELECT * FROM YakItems WHERE Id = @Id", new { id }).SingleOrDefault();
+            //return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
         }
 
         //public List<YakDetails> GetAll()

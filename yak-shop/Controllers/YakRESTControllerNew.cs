@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using yak_shop.DetailsAndUtilities;
 using yak_shop.Models;
 
@@ -16,9 +18,11 @@ namespace yak_shop.Controllers
     {
         private readonly YakContext _context;
         private readonly IYakDetailsRepository _yakDetailsRepository;
+        private static IConfigurationRoot config;
 
         public YakRESTControllerNew(YakContext context, IYakDetailsRepository yakDetailsRepository)
         {
+            Initialize();
             _context = context;
             _yakDetailsRepository = yakDetailsRepository ?? throw new ArgumentNullException(nameof(yakDetailsRepository));
         }
@@ -35,7 +39,8 @@ namespace yak_shop.Controllers
         public async Task<ActionResult<YakDetails>> GetYakDetails(int id)
         {
             //var yakDetails = await _context.YakItems.FindAsync(id);
-            var yakDetails = _yakDetailsRepository.GetYak(id);
+            var yakRepo = CreateRepository();
+            var yakDetails = yakRepo.GetYak(id);
 
             if (yakDetails == null)
             {
@@ -44,6 +49,23 @@ namespace yak_shop.Controllers
 
             return yakDetails;
         }
+
+
+
+        private static void Initialize()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            config = builder.Build();
+        }
+
+        private static IYakDetailsRepository CreateRepository()
+        {
+            return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
+        }
+
+
+
+
 
         // PUT: api/YakRESTControllerNew/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
