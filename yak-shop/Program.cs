@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using yak_shop.DetailsAndUtilities;
+using Microsoft.Extensions.DependencyInjection;
+using yak_shop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace yak_shop
 {
@@ -24,7 +27,26 @@ namespace yak_shop
             //FindYak(1);
             //UpdateYak(1);
             //DeleteYak(2);
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                try
+                {
+                    var context = scope.ServiceProvider.GetService<YakContext>();
+                    // for demo purposes, delete the database & migrate on startup so 
+                    // we can start with a clean slate
+                    context.Database.EnsureDeleted();
+                    context.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while migrating the database.");
+                }
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

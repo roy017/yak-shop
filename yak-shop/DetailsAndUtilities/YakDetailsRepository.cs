@@ -25,11 +25,11 @@ namespace yak_shop.DetailsAndUtilities
 
         public YakDetails GetYak(int yakId)
         {
-            //Console.WriteLine("Testing");
+            Console.WriteLine("Testing");
             //if (yakId == null)
-            //throw new ArgumentNullException(nameof(yakId));
-            return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { yakId }).SingleOrDefault();
-            //return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
+            //    throw new ArgumentNullException(nameof(yakId));
+            //return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { yakId }).SingleOrDefault();
+            return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
         }
 
         //public List<YakDetails> GetAll()
