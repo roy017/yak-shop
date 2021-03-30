@@ -1,4 +1,6 @@
-﻿This Project is yak shop, it is an ASP.NET Core Web Application.
+# yak-shop
+
+This Project is yak shop, it is an ASP.NET Core Web Application.
 In this project you can request what the yak herd will look like in the provided days.
 You can also get information on the stock after provided days and see if you place an order if there is enough stock.
 
