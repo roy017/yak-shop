@@ -45,7 +45,6 @@ namespace yak_shop.Controllers
 
         // GET: api/YakRESTControllerNew/5
         [HttpGet("herd/{day}")]
-        //public async Task<ActionResult<YakDetails>> GetYakDetails(int id)
         public async Task<ActionResult<IEnumerable<YakDetails>>> GetYakDetails(int day)
         {
             
@@ -62,6 +61,24 @@ namespace yak_shop.Controllers
             return yakList;
         }
 
+        [HttpGet("stock/{day}")]
+        public async Task<ActionResult<StockDetails>> GetstockDetails(int day)
+        {
+
+            //var yakRepo = CreateRepository();
+            //var yak = yakRepo.GetYak(id);
+
+            var yakList = await _context.YakItems.ToListAsync();
+            if (yakList == null)
+            {
+                return NotFound();
+            }
+            var yakUtilities = new YakUtilities();
+            
+            var StockInfo = yakUtilities.GetHerdStatistics(ref yakList, day);
+            
+            return StockInfo;
+        }
 
 
         //private static void Initialize()
