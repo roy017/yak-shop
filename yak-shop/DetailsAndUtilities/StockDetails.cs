@@ -2,7 +2,12 @@
 {
     public class StockDetails
     {
-        public double Milk = 0;
-        public int Skins = 0;
+        public double Milk { get; set; }
+        public int Skins { get; set; }
+        public StockDetails()
+        {
+            Milk = 0;
+            Skins = 0;
+        }
     }
 }

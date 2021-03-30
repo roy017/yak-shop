@@ -13,6 +13,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace yak_shop.Controllers
 {
@@ -20,9 +21,11 @@ namespace yak_shop.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private static IConfigurationRoot config;
 
         public HomeController(ILogger<HomeController> logger)
         {
+            Initialize();
             _logger = logger;
         }
 
@@ -37,7 +40,7 @@ namespace yak_shop.Controllers
         {
             return View();
         }
-        [Route("Yak-Shop/herd/")]
+        [Route("Yak-Shop/herdInfo/")]
         [HttpGet("{herdDays}.{format?}")]
         public IActionResult Herd(string herdDays)
         {
@@ -51,24 +54,19 @@ namespace yak_shop.Controllers
                 Console.WriteLine(e.Message);
             }
 
+            var repository = CreateRepository();
+            List<YakDetails> herdInfo = repository.GetAll();
+
             YakUtilities YakUtilities = new YakUtilities();
-            List<YakDetails> herdInfo = YakUtilities.GetAllData();
+            YakUtilities.GetHerdStatistics(ref herdInfo, T);
 
             ViewData["herdInfo"] = herdInfo;
-
-            StockDetails stockInfo = new StockDetails();
-            stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
-
-            var json = JsonConvert.SerializeObject(herdInfo.ToArray(), Formatting.Indented);
-            System.IO.File.WriteAllText(@"JsonFiles\DataHerd_JSON.json", json);
-
             ViewData["MaxAge"] = 10f;
             ViewData["CurrentDay"] = T;
             return View();
         }
 
         [Route("Yak-Shop/stock/")]
-        //[Produces("application/json")]
         [HttpGet("{herdDays}.{format?}")]
         public IActionResult Stock(string herdDays)
         {
@@ -83,10 +81,10 @@ namespace yak_shop.Controllers
             }
 
             YakUtilities YakUtilities = new YakUtilities();
-            List<YakDetails> herdInfo = YakUtilities.GetAllData();
+            var repository = CreateRepository();
+            List<YakDetails> herdInfo = repository.GetAll();
 
-            StockDetails stockInfo = new StockDetails();
-            stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
+            var stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
             var json = JsonConvert.SerializeObject(stockInfo, Formatting.Indented);
             System.IO.File.WriteAllText(@"JsonFiles\DataStock_JSON.json", json);
 
@@ -115,7 +113,8 @@ namespace yak_shop.Controllers
                 skins = int.Parse(skinsOrder);
 
                 YakUtilities YakUtilities = new YakUtilities();
-                List<YakDetails> herdInfo = YakUtilities.GetAllData();
+                var repository = CreateRepository();
+                List<YakDetails> herdInfo = repository.GetAll();
 
                 StockDetails stockInfo = new StockDetails();
                 stockInfo = YakUtilities.GetHerdStatistics(ref herdInfo, T);
@@ -150,7 +149,6 @@ namespace yak_shop.Controllers
 
             var json = JsonConvert.SerializeObject(orderInfo, Formatting.Indented);
             System.IO.File.WriteAllText(@"JsonFiles\DataOrder_JSON.json", json);
-            //System.IO.File.AppendAllText(@"JsonFiles\DataOrder_JSON.json", json);
 
             return View();
         }
@@ -175,6 +173,17 @@ namespace yak_shop.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private static void Initialize()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            config = builder.Build();
+        }
+
+        private static IYakDetailsRepository CreateRepository()
+        {
+            return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
         }
     }
 }
