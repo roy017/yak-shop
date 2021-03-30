@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "yak-shop", "yak-shop\yak-shop.csproj", "{2E479D85-1C74-4530-BE2C-732A3B2610DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "yak-shopProject", "yak-shop\yak-shopProject.csproj", "{2E479D85-1C74-4530-BE2C-732A3B2610DD}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DatabaseYakShop", "DatabaseYakShop\DatabaseYakShop.sqlproj", "{F7606B6C-4198-422F-9107-C20438AD671C}"
 EndProject
