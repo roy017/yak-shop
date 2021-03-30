@@ -17,8 +17,13 @@ You can make Http Rest Get and Post calls, with the use of for example Postman, 
 - GET https://localhost:5001/Yak-Shop/stock/17 , which will give you the stock info at day 17
 
 Working with the program:
+
 Clone the repository,
+
 Be sure to have Dokcer installed,
+
 Run the docker-compose.yml file in your PowerShell, to create your local server,
+
 Check if your server is running,
+
 Run the project, (be sure that yak-shopProject is the startup project)
