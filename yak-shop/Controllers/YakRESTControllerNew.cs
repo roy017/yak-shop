@@ -12,56 +12,68 @@ using yak_shop.Models;
 
 namespace yak_shop.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Yak-Shop")]
     [ApiController]
     public class YakRESTControllerNew : ControllerBase
     {
         private readonly YakContext _context;
-        private readonly IYakDetailsRepository _yakDetailsRepository;
-        private static IConfigurationRoot config;
+        //private readonly IYakDetailsRepository _yakDetailsRepository;
+        //private static IConfigurationRoot config;
 
         public YakRESTControllerNew(YakContext context, IYakDetailsRepository yakDetailsRepository)
         {
-            Initialize();
+            //Initialize();
             _context = context;
-            _yakDetailsRepository = yakDetailsRepository ?? throw new ArgumentNullException(nameof(yakDetailsRepository));
+            //_yakDetailsRepository = yakDetailsRepository ?? throw new ArgumentNullException(nameof(yakDetailsRepository));
         }
 
         // GET: api/YakRESTControllerNew
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<YakDetails>>> GetTodoItems()
+        [HttpGet("herd")]
+        public async Task<ActionResult<IEnumerable<YakDetails>>> GetAllYakDetails()
         {
+            //var yakRepo = CreateRepository();
+            //var yakDetails = yakRepo.GetAll();
+
+            //if (yakDetails == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return yakDetails;
             return await _context.YakItems.ToListAsync();
         }
 
         // GET: api/YakRESTControllerNew/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<YakDetails>> GetYakDetails(int id)
+        [HttpGet("herd/{day}")]
+        //public async Task<ActionResult<YakDetails>> GetYakDetails(int id)
+        public async Task<ActionResult<IEnumerable<YakDetails>>> GetYakDetails(int day)
         {
-            //var yakDetails = await _context.YakItems.FindAsync(id);
-            var yakRepo = CreateRepository();
-            var yakDetails = yakRepo.GetYak(id);
+            
+            //var yakRepo = CreateRepository();
+            //var yak = yakRepo.GetYak(id);
 
-            if (yakDetails == null)
+            var yakList = await _context.YakItems.ToListAsync();
+            if (yakList == null)
             {
                 return NotFound();
             }
-
-            return yakDetails;
+            var yakUtilities = new YakUtilities();
+            yakUtilities.GetHerdStatistics(ref yakList, day);
+            return yakList;
         }
 
 
 
-        private static void Initialize()
-        {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            config = builder.Build();
-        }
+        //private static void Initialize()
+        //{
+        //    var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+        //    config = builder.Build();
+        //}
 
-        private static IYakDetailsRepository CreateRepository()
-        {
-            return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
-        }
+        //private static IYakDetailsRepository CreateRepository()
+        //{
+        //    return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
+        //}
 
 
 
@@ -102,7 +114,7 @@ namespace yak_shop.Controllers
         // POST: api/YakRESTControllerNew
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPost("herd")]
         public async Task<ActionResult<YakDetails>> PostYakDetails(YakDetails yakDetails)
         {
             _context.YakItems.Add(yakDetails);
@@ -110,6 +122,18 @@ namespace yak_shop.Controllers
 
             //return CreatedAtAction("GetYakDetails", new { id = yakDetails.Id }, yakDetails);
             return CreatedAtAction(nameof(GetYakDetails), new { id = yakDetails.Id }, yakDetails);
+
+            //var yakRepo = CreateRepository();
+            //var id = yakRepo.AddYak(yakDetails);
+
+            //var yak = yakRepo.GetYak(id);
+
+            //if (yak == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return CreatedAtAction(nameof(GetYakDetails), new { id = yak.Id }, yak);
         }
 
         // DELETE: api/YakRESTControllerNew/5

@@ -12,11 +12,12 @@
         {
 
         }
-        public YakDetails(string name, float age, char sex)
+        public YakDetails(string name, float age, char sex, float lastShaved)
         {
             Name = name;
             Age = age;
             Sex = sex;
+            ageLastShaved = lastShaved;
         }
     }
 }

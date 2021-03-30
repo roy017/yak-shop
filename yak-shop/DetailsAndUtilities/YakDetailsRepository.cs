@@ -29,31 +29,35 @@ namespace yak_shop.DetailsAndUtilities
             //if (yakId == null)
             //    throw new ArgumentNullException(nameof(yakId));
             //return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { yakId }).SingleOrDefault();
-            return this.db.Query<YakDetails>("SELECT * FROM YakItems WHERE Id = @Id", new { id }).SingleOrDefault();
+            var yak = this.db.Query<YakDetails>("SELECT * FROM YakItems WHERE Id = @Id", new { id }).SingleOrDefault();
+            //yak.Age += 10;
+            //UpdateYakData(yak);
+            return yak;
             //return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
         }
 
-        //public List<YakDetails> GetAll()
-        //{
-        //    return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData").ToList();
-        //}
+        public List<YakDetails> GetAll()
+        {
+            return this.db.Query<YakDetails>("SELECT * FROM YakItems").ToList();
+        }
 
-        //public void AddYak(YakDetails yak)
-        //{
-        //    var sql = "INSERT INTO YakDetailsData (Name, Age, Sex, ageLastShaved) VALUES(@Name, @Age, @Sex, @ageLastShaved);" + "SELECT CAST(SCOPE_IDENTITY() as int)";
-        //    var id = this.db.Query<int>(sql, yak).Single();
-        //    yak.Id = id;
-        //}
+        public int AddYak(YakDetails yak)
+        {
+            var sql = "INSERT INTO YakItems (Name, Age, Sex, ageLastShaved) VALUES(@Name, @Age, @Sex, @ageLastShaved);" + "SELECT CAST(SCOPE_IDENTITY() as int)";
+            var id = this.db.Query<int>(sql, yak).Single();
+            yak.Id = id;
+            return id;
+        }
         //public YakDetails FindYakData(int id)
         //{
         //    return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { id }).SingleOrDefault();
         //}
 
-        //public void UpdateYakData(YakDetails yak)
-        //{
-        //    var sql = "UPDATE YakDetailsData " + "SET Name = @Name, " + "Age = @Age, " + "Sex = @Sex, " + "ageLastShaved = @ageLastShaved " + "WHERE Id = @Id";
-        //    this.db.Execute(sql, yak);
-        //}
+        public void UpdateYakData(YakDetails yak)
+        {
+            var sql = "UPDATE YakItems " + "SET Name = @Name, " + "Age = @Age, " + "Sex = @Sex, " + "ageLastShaved = @ageLastShaved " + "WHERE Id = @Id";
+            this.db.Execute(sql, yak);
+        }
 
         //public void RemoveYakData(int id)
         //{

@@ -42,15 +42,15 @@ namespace yak_shop.Migrations
 
                     b.ToTable("YakItems");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Age = 3f,
-                            Name = "Billy",
-                            Sex = "f",
-                            ageLastShaved = 3f
-                        });
+                    //b.HasData(
+                    //    new
+                    //    {
+                    //        Id = 1,
+                    //        Age = 3f,
+                    //        Name = "Billy",
+                    //        Sex = "f",
+                    //        ageLastShaved = 3f
+                    //    });
                 });
 #pragma warning restore 612, 618
         }

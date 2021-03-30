@@ -22,10 +22,10 @@ namespace yak_shop.Migrations
                     table.PrimaryKey("PK_YakItems", x => x.Id);
                 });
 
-            migrationBuilder.InsertData(
-                table: "YakItems",
-                columns: new[] { "Id", "Age", "Name", "Sex", "ageLastShaved" },
-                values: new object[] { 1, 3f, "Billy", "f", 3f });
+            //migrationBuilder.InsertData(
+            //    table: "YakItems",
+            //    columns: new[] { "Id", "Age", "Name", "Sex", "ageLastShaved" },
+            //    values: new object[] { 1, 3f, "Billy", "f", 3f });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

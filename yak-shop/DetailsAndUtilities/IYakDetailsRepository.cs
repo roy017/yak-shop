@@ -10,12 +10,12 @@ namespace yak_shop.DetailsAndUtilities
         public YakDetails GetYak(int yakId);
 
         
-        //List<YakDetails> GetAll();
+        List<YakDetails> GetAll();
 
-        //void AddYak(YakDetails yak);
+        int AddYak(YakDetails yak);
 
         //YakDetails FindYakData(int id);
-        //void UpdateYakData(YakDetails yak);
+        void UpdateYakData(YakDetails yak);
 
         //void RemoveYakData(int id);
     }

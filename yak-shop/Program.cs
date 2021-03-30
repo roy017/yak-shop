@@ -12,6 +12,7 @@ using yak_shop.DetailsAndUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using yak_shop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace yak_shop
 {
@@ -21,7 +22,7 @@ namespace yak_shop
         private static IConfigurationRoot config;
         public static void Main(string[] args)
         {
-            //Initialize();
+            Initialize();
             //GetData();
             //AddYak();
             //FindYak(1);
@@ -38,6 +39,7 @@ namespace yak_shop
                     // we can start with a clean slate
                     context.Database.EnsureDeleted();
                     context.Database.Migrate();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -45,7 +47,7 @@ namespace yak_shop
                     logger.LogError(ex, "An error occurred while migrating the database.");
                 }
             }
-
+            XMLDataToDatabase();
             host.Run();
         }
 
@@ -55,7 +57,47 @@ namespace yak_shop
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-        
+
+        static void XMLDataToDatabase()
+        {
+            var herdInfo = GetXMLData();
+
+            var repository = CreateRepository();
+            
+
+            foreach ( var yak in herdInfo)
+            {
+                repository.AddYak(yak);
+            }
+        }
+
+        static List<YakDetails> GetXMLData()
+        {
+            XElement document = XElement.Load(@"DetailsAndUtilities\YakData.xml");
+            string ResultText = document.FirstNode.ToString();
+            IEnumerable<XElement> yakInfo = (from info in document.Elements("labyak") select info);
+
+            List<YakDetails> herdInfo = new List<YakDetails>();
+            if (yakInfo != null)
+            {
+                foreach (var info in yakInfo)
+                {
+                    string Name = info.Attribute("name").Value;
+
+                    string strAge = info.Attribute("age").Value;
+                    float Age = float.Parse(strAge);
+
+
+                    string strSex = info.Attribute("sex").Value;
+                    char Sex = char.Parse(strSex);
+
+                    YakDetails newYak = new YakDetails(Name, Age, Sex, Age);
+                    herdInfo.Add(newYak);
+                }
+            }
+            return herdInfo;
+        }
+
         //static void GetData()
         //{
         //    var repository = CreateRepository();
@@ -109,15 +151,15 @@ namespace yak_shop
         //    //repository2.FindYakData(id);
         //}
 
-        //private static void Initialize()
-        //{
-        //    var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-        //    config = builder.Build();
-        //}
+        private static void Initialize()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            config = builder.Build();
+        }
 
-        //private static IYakDetailsRepository CreateRepository()
-        //{
-        //    return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
-        //}
+        private static IYakDetailsRepository CreateRepository()
+        {
+            return new YakDetailsRepository(config.GetConnectionString("DefaultConnection"));
+        }
     }
 }

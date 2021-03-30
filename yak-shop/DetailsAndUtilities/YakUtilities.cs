@@ -16,34 +16,7 @@ namespace yak_shop.DetailsAndUtilities
     public class YakUtilities
     {
         const int MAX_YAK_AGE_DAYS = 1000;
-        public List<YakDetails> GetAllData()
-        {
-            //XElement document = XElement.Load(@"C:\Users\roysi\source\repos\yak-shop\yak-shop\YakData.xml");
-            XElement document = XElement.Load(@"DetailsAndUtilities\YakData.xml");
-            string ResultText = document.FirstNode.ToString();
-            IEnumerable<XElement> yakInfo = (from info in document.Elements("labyak") select info);
-
-            List<YakDetails> herdInfo = new List<YakDetails>();
-            //float daysAddedToAge = (float)days / 100;
-            if(yakInfo != null)
-            {
-                foreach ( var info in yakInfo)
-                {
-                    string Name = info.Attribute("name").Value;
-
-                    string strAge = info.Attribute("age").Value;
-                    float Age = float.Parse(strAge);
-
-
-                    string strSex = info.Attribute("sex").Value;
-                    char Sex = char.Parse(strSex);
-
-                    YakDetails newYak = new YakDetails(Name, Age, Sex);
-                    herdInfo.Add(newYak);
-                }
-            }
-            return herdInfo;
-        }
+        
         public StockDetails GetHerdStatistics( ref List<YakDetails> herdInfo, int days)
         {
             StockDetails stockInfo = new StockDetails();
