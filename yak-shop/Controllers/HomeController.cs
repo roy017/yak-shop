@@ -60,9 +60,6 @@ namespace yak_shop.Controllers
             YakUtilities YakUtilities = new YakUtilities();
             YakUtilities.GetHerdStatistics(ref herdInfo, T);
 
-            //var json = JsonConvert.SerializeObject(herdInfo.ToArray(), Formatting.Indented);
-            //System.IO.File.WriteAllText(@"JsonFiles\DataHerd_JSON.json", json);
-
             ViewData["herdInfo"] = herdInfo;
             ViewData["MaxAge"] = 10f;
             ViewData["CurrentDay"] = T;
@@ -70,7 +67,6 @@ namespace yak_shop.Controllers
         }
 
         [Route("Yak-Shop/stock/")]
-        //[Produces("application/json")]
         [HttpGet("{herdDays}.{format?}")]
         public IActionResult Stock(string herdDays)
         {
@@ -153,7 +149,6 @@ namespace yak_shop.Controllers
 
             var json = JsonConvert.SerializeObject(orderInfo, Formatting.Indented);
             System.IO.File.WriteAllText(@"JsonFiles\DataOrder_JSON.json", json);
-            //System.IO.File.AppendAllText(@"JsonFiles\DataOrder_JSON.json", json);
 
             return View();
         }

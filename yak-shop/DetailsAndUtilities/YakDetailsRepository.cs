@@ -25,15 +25,8 @@ namespace yak_shop.DetailsAndUtilities
 
         public YakDetails GetYak(int id)
         {
-            //Console.WriteLine("Testing");
-            //if (yakId == null)
-            //    throw new ArgumentNullException(nameof(yakId));
-            //return this.db.Query<YakDetails>("SELECT * FROM YakDetailsData WHERE Id = @Id", new { yakId }).SingleOrDefault();
             var yak = this.db.Query<YakDetails>("SELECT * FROM YakItems WHERE Id = @Id", new { id }).SingleOrDefault();
-            //yak.Age += 10;
-            //UpdateYakData(yak);
             return yak;
-            //return _context.YakItems.Where(y => y.Id == yakId).FirstOrDefault();
         }
 
         public List<YakDetails> GetAll()

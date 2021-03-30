@@ -37,7 +37,6 @@ namespace yak_shop.DetailsAndUtilities
             
             stockInfo.Skins = totalSkins;
             stockInfo.Milk = totalMilk;
-            //Console.WriteLine($"{stockInfo.Milk} liters of milk, {stockInfo.Skins} skins of wool");
             return stockInfo;
         }
 
@@ -64,8 +63,7 @@ namespace yak_shop.DetailsAndUtilities
         {
             int countSkins = 1;
             int lastShaved = (int)(yak.ageLastShaved * 100);
-            //if (days > 0)
-            //countSkins = 1;// bc the shepherd shaves each yak on day 0, so technically we start with 1 skin for each yak
+
             for (int i = 1; i <= days; i++)
             {
                 int ageNow = (int)(yak.Age * 100 + i);
@@ -87,7 +85,7 @@ namespace yak_shop.DetailsAndUtilities
         {
             bool flag = false;
             double daysNeededBeforeShave = (8 + (ageNow) * 0.01);
-            //Console.WriteLine($"needed:{daysNeededBeforeShave}, now: {ageNow}, lastShaved: {lastShaved}");
+
             if ((double)ageNow - (double)lastShaved > daysNeededBeforeShave)
                 flag = true;
             return flag;

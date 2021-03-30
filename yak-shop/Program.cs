@@ -23,11 +23,6 @@ namespace yak_shop
         public static void Main(string[] args)
         {
             Initialize();
-            //GetData();
-            //AddYak();
-            //FindYak(1);
-            //UpdateYak(1);
-            //DeleteYak(2);
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -35,8 +30,7 @@ namespace yak_shop
                 try
                 {
                     var context = scope.ServiceProvider.GetService<YakContext>();
-                    // for demo purposes, delete the database & migrate on startup so 
-                    // we can start with a clean slate
+
                     context.Database.EnsureDeleted();
                     context.Database.Migrate();
                     
@@ -97,60 +91,6 @@ namespace yak_shop
             }
             return herdInfo;
         }
-
-        //static void GetData()
-        //{
-        //    var repository = CreateRepository();
-
-        //    var yakDetails = repository.GetAll();
-
-        //    Console.WriteLine($"Count:{ yakDetails.Count}");
-        //    yakDetails.Output();
-        //}
-
-        //static void AddYak()
-        //{
-        //    var repository = CreateRepository();
-        //    var yak = new YakDetails
-        //    {
-        //        Name = "Jetty",
-        //        Age = 3,
-        //        Sex = 'f',
-        //        ageLastShaved = 3
-        //    };
-        //    repository.AddYak(yak);
-        //}
-
-        //static void FindYak(int id)
-        //{
-        //    var repository = CreateRepository();
-        //    var yak = repository.FindYakData(id);
-        //    yak.Output();
-        //}
-
-        //static void UpdateYak(int id)
-        //{
-        //    var repository = CreateRepository();
-        //    var yak = repository.FindYakData(id);
-        //    yak.Output();
-        //    yak.Age = 6;
-        //    repository.UpdateYakData(yak);
-
-        //    //var repository2 = CreateRepository();
-        //    //var yak2 = repository2.FindYakData(id);
-        //    //yak2.Output();
-        //}
-
-        //static void DeleteYak(int id)
-        //{
-        //    var repository = CreateRepository();
-        //    repository.FindYakData(id);
-        //    repository.RemoveYakData(id);
-
-        //    //var repository2 = CreateRepository();
-        //    //repository2.FindYakData(id);
-        //}
-
         private static void Initialize()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
